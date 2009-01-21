@@ -1,0 +1,75 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+<% 
+
+def today 
+  Time.now.utc.to_s(:db) 
+end
+
+%>
+
+weekly:
+    id: 1
+    cw_exactmonth: ~
+    cw_relativemonth: ~
+    cw_exactweek: ~
+    cw_relativeweek: ~
+    cw_exactday: ~
+    cw_relativeday: 1
+    type: WeeklyWizardrule
+    description: aweeklyrule
+    notes: denoted in the note
+    wizard_id: 1
+    user_id: 1
+    context_id: 1
+    project_id: ~
+    tags: ~
+    showdaysbefore: 3
+    autocomplete: true
+    autoinsert: true
+    created_at: <%= today %>
+    updated_at: <%= today %>
+
+
+monthly:
+    id: 2
+    cw_exactmonth: ~
+    cw_relativemonth: ~
+    cw_exactweek: ~
+    cw_relativeweek: ~
+    cw_exactday: 2
+    cw_relativeday: 'LAST'
+    type: MonthlyWizardrule
+    description: amonthlyrule
+    notes: vino vino vino
+    wizard_id: 2
+    user_id: 1
+    context_id: 1
+    project_id: ~
+    tags: ~
+    showdaysbefore: 3
+    autocomplete: true
+    autoinsert: true
+    created_at: <%= today %>
+    updated_at: <%= today %>
+
+yearly:
+    id: 3
+    cw_exactmonth: 11
+    cw_relativemonth: ~
+    cw_exactweek: ~
+    cw_relativeweek: ~
+    cw_exactday: 3
+    cw_relativeday: ~
+    type: YearlyWizardrule
+    description: ayearlyrule
+    notes: celebration generation
+    wizard_id: 3
+    user_id: 1
+    context_id: 1
+    project_id: ~
+    tags: ~
+    showdaysbefore: 3
+    autocomplete: true
+    autoinsert: true
+    created_at: <%= today %>
+    updated_at: <%= today %>

@@ -103,5 +103,4 @@ class UsersXmlApiTest < ActionController::IntegrationTest
   def assert_404_invalid_xml
     assert_response_and_body 404, "Expected post format is valid xml like so: <request><login>username</login><password>abc123</password></request>."
   end
-  
-end
+  end

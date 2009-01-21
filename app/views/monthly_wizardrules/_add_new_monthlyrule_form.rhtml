@@ -1,0 +1,45 @@
+<%
+  @initial_context_name = @context.name unless @context.nil?
+  @initial_context_name ||= @project.default_context.name unless @project.nil? || @project.default_context.nil? 
+  @initial_context_name ||= @contexts[0].name unless @contexts[0].nil?
+  @initial_project_name = @project.name unless @project.nil?
+%>
+<div id="wizard_new_rule_container">
+
+  <div id="toggle_monthlyrule_new" class="hide_form">
+    <a title="Hide new monthly rule form" accesskey="n">&laquo; Hide form</a>
+    <%  apply_behavior '#toggle_monthlyrule_new a:click', :prevent_default => true do |page|
+          page << "TracksForm.toggle('toggle_monthlyrule_new', 'monthlywizard_new_rule', 'monthlywizard-form-new-rule',
+                                     '&laquo; Hide form', 'Hide next weekly rule form',
+                                     'Add next monthly rule &#187;', 'Add a next weekly rule');"
+          end
+    %>
+  </div>
+
+<div id="monthlywizard_new_rule" style="display:block">
+
+<% form_remote_tag(
+    :url => {:controller => "monthly_wizardrules", :action => "create"}, :method => :post,
+    :html=> { :id=>'monthlywizard-form-new-rule', :name=>'monthlywizard', :class => 'inline-form' },
+    :before => "$('wizard_new_rule_submit').startWaiting()",
+    :complete => "$('wizard_new_rule_submit').stopWaiting()",
+    :condition => "!$('wizard_new_rule_submit').isWaiting()") do -%>
+
+<div id="monthlystatus"><%= error_messages_for('monthlyWizardrule', :object_name => 'Monthly Wizardrule') %></div>
+
+<label for="monthlywizard_cw_relativeday">Add action monthly on the</label>
+
+<%=select_tag( "monthlyday", "<option value='FIRST' >first</option><option value='LAST' >last</option>" + options_for_select(1..28)) %>
+<%= observe_field "monthlyday",:url => "monthly_wizardrules/calculate_relativeweeks",:frequency => 0.5,:update => "alwaysNamedifferentWithrjs",
+	:with => "'daynumber='+ escape($('monthlyday').value)" ,
+	:loading    =>  "$('cw_relativeweek_cont').startWaiting()",
+    :complete   =>  "$('cw_relativeweek_cont').stopWaiting()" %>
+
+<div id="cw_relativeweek_cont"><%=select_tag( "exactday", "<option value='DAY' >day</option>"+ options_for_select(WizardrulesController::DAYS,"Monday"))%></div>
+
+<%= render :partial => "wizardrules/new_wizard_form" %>
+<% end -%>
+
+
+</div>
+</div>

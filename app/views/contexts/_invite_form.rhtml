@@ -1,0 +1,39 @@
+<% context = invite_form 
+   @context = context-%>
+<div id="<%= dom_id(context, 'edit-invite') %>" class="invite-form" style="display:none;">
+
+  <% form_remote_tag(
+    :url => {:controller => 'contexts', :action => "invite"}, :method => :post,
+    :html=> { :id=>'invite-form', :name=>'context', :class => 'inline-form' },
+    :before => "$('invite-submit').startWaiting()",
+    :complete => "$('invite-submit').stopWaiting()",
+    :condition => "!$('invite-submit').isWaiting()") do -%>
+	
+<div id="error_status"><%= error_messages_for("user", :object_name => 'action') %></div>
+	<%= hidden_field_tag("context_id", "#{@context.id}" ) %>
+	
+    <label for="user_name">User to invite to use your Context "<%=@context.name%>":</label><br/>
+    <%= text_field('invite', 'username', :class => 'context-name') %><br/>
+	
+    <div class="submit_box">
+      <div class="widgets">
+        <button type="submit" class="positive" id="invite-submit" tabindex="15">
+          <%=image_tag("accept.png", :alt => "") %>
+          Invite
+        </button>
+        <a href="javascript:void(0);" onclick="Element.toggle('<%= dom_id(context) %>');Element.toggle('<%= dom_id(context, 'edit-invite') %>');" class="negative">
+          <%=image_tag("cancel.png", :alt => "") %>
+          Cancel
+        </a>
+      </div>
+    </div>
+    <br/><br/>
+  
+    <% end %>
+  <%= apply_behavior ".edit-invite-form", make_remote_form(
+      :before => "this.up('div.invite-form').down('button.positive').startWaiting()",
+      :condition => "!(this.up('div.invite-form').down('button.positive')).isWaiting()"), 
+      :external => true
+@context = nil %>
+</div>
+

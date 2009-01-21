@@ -1,0 +1,15 @@
+<div id="display_box">
+  <div id="list-contexts-container">
+    <div id="contexts-empty-nd" style="<%= @no_contexts ? 'display:block' : 'display:none'%>">
+      <div class="message"><p>Currently there are no contexts</p></div>
+    </div>
+    <div id="list-contexts">
+      <%= render :partial => 'shared_context_listing', :collection => @contexts %>
+    </div>
+	<div id="list-invites">
+      <%= render :partial => 'invites_listing', :collection => @invites %>
+    </div>
+  </div>
+</div>
+
+    

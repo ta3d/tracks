@@ -34,4 +34,11 @@ class Preference < ActiveRecord::Base
 
     user.at_midnight(date)
   end
+
+  def parse_datetime(s)
+    return nil if s.blank?
+    r=DateTime.strptime(s, fmt='%d/%m/%Y% %H:%M', sg=Date::ITALY)
+    t=Time.zone.local(r.year, r.month, r.day, r.hour, r.min, 0)
+    t.utc
+  end
 end

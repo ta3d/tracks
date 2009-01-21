@@ -1,8 +1,16 @@
 class Context < ActiveRecord::Base
-
+ 
+  SHAREMODI = { 'None' => 0, 'Public' => 1, 'Private' => 2}
+  SHAREMODUS_NONE=0
+  SHAREMODUS_PUBLIC=1
+  SHAREMODUS_PRIVATE=2
+  
   has_many :todos, :dependent => :delete_all, :include => :project, :order => "todos.completed_at DESC"
+  has_many :wizardrules, :dependent => :delete_all
   belongs_to :user
-
+  belongs_to :context
+  has_many :contexts, :dependent => :destroy
+  
   named_scope :active, :conditions => { :hide => false }
   named_scope :hidden, :conditions => { :hide => true }
 
@@ -62,5 +70,4 @@ class NullContext
   def name
     ''
   end
-    
-end
+    end

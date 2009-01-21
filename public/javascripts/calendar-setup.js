@@ -102,6 +102,7 @@ Calendar.setup = function (params) {
     return false;
   }
 
+  
   function onSelect(cal) {
     var p = cal.params;
     var update = (cal.dateClicked || p.electric);
@@ -201,6 +202,7 @@ Calendar.setup = function (params) {
   }
   return cal;
 };
+  
 
 /* Adds keyboard shortcuts to the passed in date field:
  *

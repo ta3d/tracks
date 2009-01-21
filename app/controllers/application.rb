@@ -8,6 +8,8 @@ require "redcloth"
 
 require 'date'
 require 'time'
+require 'calendar_wizard'
+
 
 # Commented the following line because of #744. It prevented rake db:migrate to
 # run because this tag went looking for the taggings table that did not exist
@@ -18,12 +20,14 @@ require 'time'
 
 class CannotAccessContext < RuntimeError; end
 
+
 class ApplicationController < ActionController::Base
 
   protect_from_forgery :secret => SALT
 
   helper :application
   include LoginSystem
+  include CalendarWizard
   helper_method :current_user, :prefs
 
   layout proc{ |controller| controller.mobile? ? "mobile" : "standard" }
@@ -34,7 +38,9 @@ class ApplicationController < ActionController::Base
   prepend_before_filter :enable_mobile_content_negotiation
   after_filter :set_charset
   
-
+  #STI modules & inherited controller
+  require_dependency "wizardrule"
+  require_dependency "wizardrules_controller"
 
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::SanitizeHelper
@@ -121,6 +127,7 @@ class ApplicationController < ActionController::Base
     end
     formatted_date
   end
+  
 
   # Uses RedCloth to transform text using either Textile or Markdown Need to
   # require redcloth above RedCloth 3.0 or greater is needed to use Markdown,

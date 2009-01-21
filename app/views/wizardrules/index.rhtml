@@ -1,0 +1,23 @@
+<div id="display_box">
+  <%= render :partial => "wizard", :collection => @wizards, 
+            :locals => { :collapsible => true } %>
+</div><!-- End of display_box -->
+
+<div id="input_box">
+	weekly 
+  <%= render :partial => "weekly_wizardrules/add_new_weeklyrule_form" %>
+  <br>
+  <br>
+  <hr>
+  monthly
+    <%= render :partial => "monthly_wizardrules/add_new_monthlyrule_form" %>
+	
+	<br>
+  <br>
+	<hr>
+	yearly
+	  <%= render :partial => "yearly_wizardrules/add_new_yearlyrule_form" %>
+<br>
+  <br>
+
+</div><!-- End of input box -->

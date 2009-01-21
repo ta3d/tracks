@@ -15,3 +15,7 @@ config.action_mailer.raise_delivery_errors = false
 
 # Unique cookies
 ActionController::CgiRequest::DEFAULT_SESSION_OPTIONS[:session_key] = "TrackDev"
+
+# reload module each time
+Dependencies.explicitly_unloadable_constants << 'CalendarWizard'
+Dependencies.explicitly_unloadable_constants << 'SyncData'

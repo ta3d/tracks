@@ -1,6 +1,7 @@
 class Project < ActiveRecord::Base
   has_many :todos, :dependent => :delete_all, :include => :context
   has_many :notes, :dependent => :delete_all, :order => "created_at DESC"
+  has_many :wizardrules, :dependent => :delete_all
   belongs_to :default_context, :class_name => "Context", :foreign_key => "default_context_id"
   belongs_to :user
 
@@ -114,5 +115,4 @@ class NullProject
   def id
     nil
   end
-    
-end
+    end

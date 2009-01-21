@@ -1,0 +1,4 @@
+page[dom_id(@wizardrule, 'form')].down('.placeholder').replace_html :partial => 'weekly_wizardrules/edit_form'
+page[dom_id(@wizardrule, 'line')].hide
+page[dom_id(@wizardrule, 'edit')].show
+page[dom_id(@wizardrule, 'form')].down('table').down('input').focus

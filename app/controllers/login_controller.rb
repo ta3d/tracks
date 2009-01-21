@@ -1,11 +1,13 @@
 class LoginController < ApplicationController
   
   layout 'login'
+  protect_from_forgery :except => [:uservalid]
   filter_parameter_logging :user_password 
   skip_before_filter :set_session_expiration
   skip_before_filter :login_required
   before_filter :login_optional
   before_filter :get_current_user
+  
   
   def login
     if openid_enabled? && using_open_id?
@@ -74,6 +76,16 @@ class LoginController < ApplicationController
       format.js
     end
   end
+
+
+  def uservalid
+    user = User.authenticate(params['user_login'], params['user_password'])
+    if user!=nil
+      render :text => "successful"
+    else
+      render :text => "unsuccessful"
+    end
+  end
   
   private
       
@@ -114,4 +126,6 @@ class LoginController < ApplicationController
       end
     end
   end
+end
+
 end

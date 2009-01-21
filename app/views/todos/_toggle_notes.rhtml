@@ -3,5 +3,4 @@
   element.next('.todo_notes').toggle
 end -%>
 <div class="todo_notes" id="<%= dom_id(item, 'notes') %>" style="display:none">
-  <%= sanitize(markdown( auto_link(item.notes)) ) %>
-</div>
+  <%= sanitize(markdown( auto_link(item.notes)) ) %></div>

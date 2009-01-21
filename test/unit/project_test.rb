@@ -172,7 +172,7 @@ class ProjectTest < Test::Rails::TestCase
 
   def test_not_done_todo_count
     assert_equal 2, @timemachine.not_done_todo_count
-    assert_equal 4, @moremoney.not_done_todo_count
+	assert_equal 4, @moremoney.not_done_todo_count
     @moremoney.todos[0].complete!
     assert_equal 3, @moremoney.not_done_todo_count
   end

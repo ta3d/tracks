@@ -1,0 +1,9 @@
+setup :fixtures => :all
+login :as => 'admin'
+open "/wizardrules"
+click "edit_icon_weekly_wizardrule_1"
+wait_for_visible "edit_weekly_wizardrule_1"
+type "wizardrule_description", "aweeklyrulenew"
+click_and_wait "xpath=//*[@id='weekly-wizard-update-rule-submit']"
+assert_text_present "aweeklyrulenew [agenda]"
+

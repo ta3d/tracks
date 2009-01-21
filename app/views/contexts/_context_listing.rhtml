@@ -14,6 +14,16 @@
     </div>
     
     <div class="buttons">
+      <% if context.sharemodus==2 %>
+        <span class="invite">INVITE</span>
+		<%= apply_behavior 'span.invite:click', :prevent_default => true do |page, element|
+               element.up('.context').toggle 
+               editform = element.up('.list').down('.invite-form')
+               editform.toggle 
+               editform.visual_effect(:appear) 
+               editform.down('input').focus
+         end-%>
+      <% end %>
       <% if context.hide? %>
         <span class="grey">HIDDEN</span>
       <% else %>
@@ -37,5 +47,5 @@
       -%>
     </div>
   </div>
-  <%= render :partial => 'contexts/context_form', :object => context %>
-</div>
+  <%= render :partial => 'context_form', :object => context %>
+  <%= render :partial => 'invite_form', :object => context %></div>

@@ -20,5 +20,4 @@ if @saved
     page.notify :notice, "There is no next action after the recurring action you just deleted. The recurrence is completed", 6.0 unless @recurring_todo.nil?
   end
 else
-  page.notify :error, "There was an error deleting the item #{@todo.description}", 8.0
-end
+  page.notify :error, "There was an error deleting the item #{@todo.description}", 8.0end

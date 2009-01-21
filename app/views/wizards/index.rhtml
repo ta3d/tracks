@@ -1,0 +1,20 @@
+
+
+<h1>Execute Wizard Manually</h1> 
+
+  <table class="users_table"> 
+  <tr> 
+  <th>Wizards</th> 
+  </tr> 
+    <tr> 
+	<td><%= link_to "update weekly Wizard generated Todos on all Users", {:controller => 'wizards', :action => 'generate_weekly_todos' }%></td>
+  	    </tr> <tr> 
+	<td><%= link_to "update monthly Wizard generated Todos on all Users", {:controller => 'wizards', :action => 'generate_monthly_todos' }%></td>
+  	    </tr> <tr> 
+	<td><%= link_to "update yearly Wizard generated Todos on all Users", {:controller => 'wizards', :action => 'generate_yearly_todos' }%></td>
+    </tr> <tr> 
+	<td><%= link_to "autocomplete wizard generated todos", {:controller => 'wizards', :action => 'autocomplete_generated_todos' }%></td>
+    </tr> 
+  </table>
+
+</div><!-- End of input box -->

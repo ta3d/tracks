@@ -193,5 +193,4 @@ module LoginSystem
       response.headers["WWW-Authenticate"] = "Basic realm=\"'Tracks Login Required'\""
       render :text => "401 Unauthorized: You are not authorized to interact with Tracks.", :status => 401
   end
-
 end

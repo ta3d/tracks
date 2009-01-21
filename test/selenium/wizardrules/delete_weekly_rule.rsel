@@ -1,0 +1,7 @@
+setup :fixtures => :all
+login :as => 'admin'
+open "/wizardrules"
+click "//a[@id='delete_icon_2']/img"
+assert_confirmation "Are you sure that you want to delete the rule 'amonthlyrule'?"
+wait_for_element_not_present "//a[@id='delete_icon_2']/img"
+

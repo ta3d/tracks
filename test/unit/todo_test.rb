@@ -70,6 +70,7 @@ class TodoTest < Test::Rails::TestCase
     t = @not_completed2
     t[:show_from] = 1.week.ago # we have to set this via the indexer because show_from=() updates the state
                                        # and actual show_from value appropriately based on the date
+    
     assert !t.save
     assert_equal 1, t.errors.count
     assert_equal "must be a date in the future", t.errors.on(:show_from)

@@ -1,0 +1,8 @@
+setup :fixtures => :all
+login :as => 'admin'
+open "/wizardrules"
+click "edit_icon_monthly_wizardrule_2"
+wait_for_visible "edit_monthly_wizardrule_2"
+type "context_name_monthly_wizardrule_2", "call"
+click_and_wait "xpath=//*[@id='monthly-wizard-update-rule-submit']"
+assert_text_present "amonthlyrule [call]"

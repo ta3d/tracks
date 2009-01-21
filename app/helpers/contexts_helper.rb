@@ -8,5 +8,9 @@ module ContextsHelper
       :url => order_contexts_path
     }
   end
+  
+  def context_tag_list_text
+    @context.tags.collect{|t| t.name}.join(', ')
+  end
 
 end

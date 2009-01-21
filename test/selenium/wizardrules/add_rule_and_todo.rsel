@@ -1,0 +1,13 @@
+setup :fixtures => :all
+login :as => 'admin'
+open "/wizardrules"
+wait_for_page_to_load "30000"
+click "weeklywizard-form-new-rule"
+click "wizardrule_description"
+type "wizardrule_description", "insert weekly todo from this rule"
+select "wizardrule[showdaysbefore]", "12"
+click "xpath=//*[@id='wizard_new_rule_submit']" 
+wait_for_text_present "insert weekly todo from this rule"
+click "link=Home"
+wait_for_page_to_load "30000"
+assert_text_present "insert weekly todo from this rule"

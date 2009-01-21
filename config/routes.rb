@@ -2,6 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   UJS::routes
   
   map.with_options :controller => 'login' do |login|
+    login.uservalid 'uservalid', :action => 'uservalid'
     login.login 'login', :action => 'login'
     login.formatted_login 'login.:format', :action => 'login'
     login.logout 'logout', :action => 'logout'
@@ -18,6 +19,11 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :contexts, :collection => {:order => :post} do |contexts|
     contexts.resources :todos, :name_prefix => "context_"
+  end
+
+  map.with_options :controller => "contexts" do |c|
+      c.invite 'invite', :action => "invite"
+      c.list 'list', :action => "list"
   end
 
   map.resources :projects, :collection => {:order => :post, :alphabetize => :post} do |projects|
@@ -45,10 +51,8 @@ ActionController::Routing::Routes.draw do |map|
     # routed to mobile view of tags.
     todos.tag 'todos/tag/:name.m', :action => "tag", :format => 'm'
     todos.tag 'todos/tag/:name', :action => "tag", :name => /.*/
-    
     todos.calendar 'calendar.ics', :action => "calendar", :format => 'ics'
     todos.calendar 'calendar', :action => "calendar"
-    
     todos.mobile 'mobile', :action => "index", :format => 'm'
     todos.mobile_abbrev 'm', :action => "index", :format => 'm'
     todos.mobile_abbrev_new 'm/new', :action => "new", :format => 'm'
@@ -71,7 +75,29 @@ ActionController::Routing::Routes.draw do |map|
     :member => {:toggle_check => :put, :toggle_star => :put}
   map.recurring_todos 'recurring_todos', :controller => 'recurring_todos', :action => 'index'
 
+  map.resources :wizardrules
+  
+  map.resources :weekly_wizardrules
+  map.resources :monthly_wizardrules
+  map.resources :yearly_wizardrules
+
+  map.with_options :controller => 'wizards' do |wizard|
+    wizard.generate_weekly_todos    'wizards/generate_weekly_todos',     :action  => 'generate_weekly_todos'
+    wizard.generate_monthly_todos    'wizards/generate_monthly_todos',     :action  => 'generate_monthly_todos'
+    wizard.generate_yearly_todos    'wizards/generate_yearly_todos',     :action  => 'generate_yearly_todos'
+    wizard.autocomplete_generated_todos    'wizards/autocomplete_generated_todos',     :action  => 'autocomplete_generated_todos'
+  end
+
+  map.with_options :controller => 'monthly_wizardrules' do |rule|
+    rule.calculate_relativeweeks 'monthly_wizardrules/calculate_relativeweeks', :action  => 'calculate_relativeweeks'
+  end
+
+  map.with_options :controller => 'yearly_wizardrules' do |rule|
+    rule.calculate_months    'yearly_wizardrules/calculate_months',     :action  => 'calculate_months'
+  end
+
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id'
 
 end
+

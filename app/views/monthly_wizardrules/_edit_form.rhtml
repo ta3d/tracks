@@ -1,0 +1,34 @@
+<div id="error_status"><%= error_messages_for("wizardrule", :object_name => 'action') %></div>
+
+<%= hidden_field( "wizardrule", "id" ) %>
+
+<label for="monthlywizard_cw_relativeday">Monthly on the</label>
+<%temp = @wizardrule.cw_relativeday!=nil ? @wizardrule.cw_relativeday : @wizardrule.cw_exactday%> 
+<%=select_tag( "monthlyday", options_for_select({ "last" => "LAST", "first" => "FIRST"},temp) + options_for_select(1..28,temp)) %>
+<%= observe_field "monthlyday",:url => "monthly_wizardrules/calculate_relativeweeks",:frequency => 0.5,:update => "alwaysNamedifferentWithrjs",
+	:with => "'daynumber='+ escape($('monthlyday').value)" ,
+	:loading    =>  "$('cw_relativeweek_cont').startWaiting()",
+    :complete   =>  "$('cw_relativeweek_cont').stopWaiting()" %>
+
+<div id="cw_relativeweek_cont">
+	<%if @wizardrule.cw_relativeday!=nil%>
+	<%=select_tag( "exactday", "<option value='DAY' >day</option>"+ options_for_select(WizardrulesController::DAYS,@wizardrule.cw_exactday))%>
+	<%end%>
+</div>
+
+<%= render :partial => "wizardrules/edit_form" %>
+
+
+<div class="submit_box">
+  <div class="widgets">
+    <button type="submit" class="positive" id="monthly-wizard-update-rule-submit" tabindex="15">
+        <%=image_tag("accept.png", :alt => "") %>
+        Update
+    </button>
+    <a href="javascript:void(0);" onclick="Element.toggle('<%= dom_id(@wizardrule, 'line') %>');Element.toggle('<%= dom_id(@wizardrule, 'edit') %>');" class="negative">
+        <%=image_tag("cancel.png", :alt => "") %>
+        Cancel
+    </a>
+  </div>
+</div>
+

@@ -143,5 +143,4 @@ class ActionController::IntegrationTest
   def assert_401_unauthorized_admin
     assert_response_and_body 401, "401 Unauthorized: Only admin users are allowed access to this function."
   end
-  
-end
+  end

@@ -1,0 +1,18 @@
+--- 
+:backgroundrb: 
+  :ip: 127.0.0.1
+  :port: 11011
+  :log: foreground
+  :environment: development
+  :lazy_load: false
+:schedules:
+  :execute_calendar_wizard_worker:
+    :generate_weekly_todos:
+      :trigger_args: 0 0 3 * * 0 *
+    :generate_monthly_todos:
+      :trigger_args: 0 30 3 * * 0 *
+    :generate_yearly_todos:
+      :trigger_args: 0 0 4 * * 0 *
+  :autocomplete_generated_todos_worker:
+    :autocomplete:
+      :trigger_args: 0 0 * * * * *          

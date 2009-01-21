@@ -1,0 +1,16 @@
+if @saved
+  # show update message
+  status_message = 'Rule saved'
+  status_message = 'Added new project / ' + status_message if @new_project_created
+  status_message = 'Added new context / ' + status_message if @new_context_created
+  page.notify :notice, status_message, 5.0
+  
+  #update auto completer arrays for context and project
+  page << "contextAutoCompleter.options.array = #{context_names_for_autocomplete}; contextAutoCompleter.changed = true" if @new_context_created
+  page << "projectAutoCompleter.options.array = #{project_names_for_autocomplete}; projectAutoCompleter.changed = true" if @new_project_created
+  page.replace dom_id(@wizardrule), :partial => 'monthly_wizardrules/wizardrule'
+  page.visual_effect :highlight, dom_id(@wizardrule), :duration => 3
+else
+  page.show 'error_status'
+  page.replace_html 'error_status', "#{error_messages_for('wizardrule')}"
+end

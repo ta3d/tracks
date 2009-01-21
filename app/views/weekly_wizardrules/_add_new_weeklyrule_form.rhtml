@@ -1,0 +1,38 @@
+<%
+  @initial_context_name = @context.name unless @context.nil?
+  @initial_context_name ||= @project.default_context.name unless @project.nil? || @project.default_context.nil? 
+  @initial_context_name ||= @contexts[0].name unless @contexts[0].nil?
+  @initial_project_name = @project.name unless @project.nil?
+%>
+<div id="wizard_new_rule_container">
+
+  <div id="toggle_weeklyrule_new" class="hide_form">
+    <a title="Hide new weekly rule form" accesskey="n">&laquo; Hide form</a>
+    <%  apply_behavior '#toggle_weeklyrule_new a:click', :prevent_default => true do |page|
+          page << "TracksForm.toggle('toggle_weeklyrule_new', 'weeklywizard_new_rule', 'weeklywizard-form-new-rule',
+                                     '&laquo; Hide form', 'Hide next weekly rule form',
+                                     'Add next weekly rule &#187;', 'Add a next weekly rule');"
+          end
+    %>
+  </div>
+
+<div id="weeklywizard_new_rule" style="display:block">
+
+<% form_remote_tag(
+    :url => {:controller => 'weekly_wizardrules', :action => "create"}, :method => :post,
+    :html=> { :id=>'weeklywizard-form-new-rule', :name=>'weeklywizard', :class => 'inline-form' },
+    :before => "$('wizard_new_rule_submit').startWaiting()",
+    :complete => "$('wizard_new_rule_submit').stopWaiting()",
+    :condition => "!$('wizard_new_rule_submit').isWaiting()") do -%>
+
+<div id="weeklystatus"><%= error_messages_for('weeklyWizardrule', :object_name => 'Weekly Wizardrule') %></div>
+
+<label for="weeklywizard_cw_relativeday">Add action for</label>
+<%=select_tag( "cw_relativeday", options_for_select(WizardrulesController::DAYS)) %>
+
+<%= render :partial => "wizardrules/new_wizard_form" %>
+<% end -%>
+
+
+</div>
+</div>

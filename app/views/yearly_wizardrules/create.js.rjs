@@ -1,0 +1,16 @@
+if @saved
+  page.hide 'yearlystatus'
+  status_message = 'Added new yearly rule'
+  status_message = 'Added new project / ' + status_message if @new_project_created
+  status_message = 'Added new context / ' + status_message if @new_context_created
+  status_message = 'Added '+@number_of_generated_todos.to_s+' new todos / ' + status_message if @number_of_generated_todos!=nil 
+  page.notify :notice, status_message, 5.0
+  page.send :record, "Form.reset('yearlywizard-form-new-rule');Form.focusFirstElement('yearlywizard-form-new-rule')"
+  page << "updateContextNamesForAutoComplete(#{context_names_for_autocomplete})" if @new_context_created
+  page << "projectAutoCompleter.options.array = #{project_names_for_autocomplete}" if @new_project_created
+  # we have to render ../wizard/wizard cause template root was shifted up to wizardrule/ for inheritance to work
+  page.replace_html 'display_box', :partial => 'wizardrules/wizard', :collection => @wizards , :locals => { :collapsible => true }
+else
+  page.show 'yearlystatus'
+  page.replace_html 'yearlystatus', "#{error_messages_for('yearlyWizardrule', :object_name => 'Yearly Wizardrule')}"
+end

@@ -1,0 +1,5 @@
+if @saved
+  page[@wizardrule].remove
+else
+  page.notify :error, "There was an error deleting the item #{@todo.description}", 8.0
+end

@@ -58,6 +58,8 @@ window.onload=function(){
   <li><%= navigation_link( "Projects", projects_path, {:accesskey=>"p", :title=>"Projects"} ) %></li>
   <li><%= navigation_link( "Tickler", tickler_path, {:accesskey =>"k", :title => "Tickler"} ) %></li>
   <li><%= navigation_link( "Done", done_path, {:accesskey=>"d", :title=>"Completed"} ) %></li>
+  <li><%= navigation_link( "Wizards", wizardrules_path, {:accesskey => "w", :title => "Automatic Context Assistance"} ) %></li>  
+  <li><%= navigation_link( "Share", {:controller => "contexts", :action => "list"}, {:accesskey => "l", :title => "Integrate shared Contexts"} ) %></li> 
   <li><%= navigation_link( "Notes", notes_path, {:accesskey => "o", :title => "Show all notes"} ) %></li>
   <li><%= navigation_link( "Preferences", preferences_path, {:accesskey => "u", :title => "Show my preferences"} ) %></li>
   <li><%= navigation_link( "Export", {:controller => "data", :action => "index"}, {:accesskey => "i", :title => "Import and export data"} ) %></li>

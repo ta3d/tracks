@@ -32,7 +32,9 @@ Rails::Initializer.run do |config|
   
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/app/services )
-
+  config.load_paths += %W( #{RAILS_ROOT}/lib/wizards)
+  config.load_paths += %W( #{RAILS_ROOT}/lib) 	
+  
   # Force all environments to use the same logger level 
   # (by default production uses :info, the others :debug)
   # config.log_level = :debug
@@ -58,7 +60,7 @@ Rails::Initializer.run do |config|
   
   # You''ll probably want to change this to the time zone of the computer where Tracks is running
   # run rake time:zones:local have Rails suggest time zone names on your system
-  config.time_zone = 'UTC'
+  config.time_zone = 'Berlin'
   
   # Use Active Record's schema dumper instead of SQL when creating the test database
   # (enables use of different database adapters for development and test environments)
@@ -107,5 +109,4 @@ tracks_version='1.7'
 # last git commit in the footer
 # info=`git log --pretty=format:"%ai" -1`
 # tracks_version=tracks_version + ' ('+info+')'
-
 TRACKS_VERSION=tracks_version

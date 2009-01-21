@@ -1,0 +1,48 @@
+<% @actualwizardrules = @wizardrules.select {|t| t.wizard_id == wizard.id } %>
+
+<div id="display"></div>
+<div id="w<%= wizard.id %>" class="container wizard" >
+  <h2>
+<% if collapsible -%>
+    <a href="#" class="container_toggle" id="toggle_w<%= wizard.id %>"><%= image_tag("collapse.png") %></a>
+    <% apply_behavior '.container_toggle:click', :prevent_default => true do |page|
+		page << " /* only handle the click if a previous click had finished its animation */
+         if (todoItems.lastEffect == null  || todoItems.lastEffect.state=='finished') {  
+           containerElem = this.up('.container')
+           toggleTarget = containerElem.down('.toggle_target')
+           if (Element.visible(toggleTarget))
+           {
+             todoItems.collapseNextActionListing(this, toggleTarget);
+             todoItems.contextCollapseCookieManager.setCookie(todoItems.buildCookieName(containerElem), true)
+           }
+           else
+           {
+             todoItems.expandNextActionListing(this, toggleTarget);
+             todoItems.contextCollapseCookieManager.clearCookie(todoItems.buildCookieName(containerElem))
+           }
+         } 
+        "
+       end
+    %>
+<% end -%>
+
+   <a href="#" onclick="$('wizard_new_weekly_container').setStyle('visible');">
+   	<span class="in_place_editor_field" id="context_name_in_place_editor"><%= wizard.name %></span>
+	</a>
+	
+  </h2>
+   <span class="message" id="context_name_in_place_editor"><%= wizard.description %></span>
+  <div id="w<%= wizard.id %>items" class="items toggle_target">
+    <div id="w<%= wizard.id %>empty-nd" style="display:<%= @actualwizardrules.empty? ? 'block' : 'none'%>;">
+      <div class="message"><p>Currently there are no rules set for this wizard</p></div>
+    </div>	
+	<% if wizard.identifier == Wizard::WEEKLY %>
+            <%= render :partial => "weekly_wizardrules/wizardrule", :collection => @actualwizardrules, :locals => { :parent_container_type => "context" } %>
+    <% elsif wizard.identifier == Wizard::MONTHLY %>
+            <%= render :partial => "monthly_wizardrules/wizardrule", :collection => @actualwizardrules, :locals => { :parent_container_type => "context" } %>
+    <% elsif wizard.identifier == Wizard::YEARLY %>
+            <%= render :partial => "yearly_wizardrules/wizardrule", :collection => @actualwizardrules, :locals => { :parent_container_type => "context" } %>
+    <% end %>
+  </div>
+</div>
+

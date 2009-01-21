@@ -1,5 +1,8 @@
 status_message = 'Context saved'
-page.notify :notice, status_message, 5.0
+if @old_sharemodus != @context.sharemodus && @context.sharemodus==0
+  status_message = 'Context saved - You changed the sharemodus, this disconnects assigned readers from getting your todos!'
+end
+page.notify :notice, status_message, 20.0
 page.replace_html dom_id(@context, 'container'), :partial => 'context_listing', :object => @context
 page.sortable "list-contexts", get_listing_sortable_options
 

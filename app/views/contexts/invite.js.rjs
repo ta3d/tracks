@@ -1,0 +1,10 @@
+if @saved
+  status_message = 'User invited'
+  page.notify :notice, status_message, 20.0
+  page.replace_html dom_id(@context, 'container'), :partial => 'context_listing', :object => @context
+  page.sortable "list-contexts", get_listing_sortable_options
+  page.hide "busy"
+else
+  page.show 'error_status'
+  page.replace_html 'error_status', "User not inviteable or unknown!"
+end

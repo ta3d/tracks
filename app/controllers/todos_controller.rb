@@ -386,6 +386,7 @@ class TodosController < ApplicationController
     @tag = Tag.new(:name => @tag_name) if @tag.nil?
     tag_collection = @tag.todos
     
+
     @not_done_todos = tag_collection.find(:all, 
       :conditions => ['todos.user_id = ? and state = ?', current_user.id, 'active'],
       :order => 'todos.due IS NULL, todos.due ASC, todos.created_at ASC')
@@ -413,7 +414,7 @@ class TodosController < ApplicationController
     @not_done_todos.empty? ? @count = 0 : @count = @not_done_todos.size
     @down_count = @count 
 
-    respond_to do |format|
+	respond_to do |format|
       format.html {
         @default_project_context_name_map = build_default_project_context_name_map(@projects).to_json
       }
@@ -423,6 +424,7 @@ class TodosController < ApplicationController
       }
     end
   end
+  
   
   def defer
     @source_view = params['_source_view'] || 'todo'
@@ -901,7 +903,11 @@ class TodosController < ApplicationController
     def due
       @attributes['due']
     end
-      
+    
+    def remindtime
+      @attributes['remindtime']
+    end  
+
     def project_name
       @params['project_name'].strip unless @params['project_name'].nil?
     end
@@ -918,6 +924,8 @@ class TodosController < ApplicationController
       @attributes['show_from'] = @prefs.parse_date(show_from)
       @attributes['due'] = @prefs.parse_date(due)
       @attributes['due'] ||= ''
+      @attributes['remindtime'] = @prefs.parse_datetime(remindtime)
+
     end
       
     def project_specified_by_name?
@@ -932,6 +940,6 @@ class TodosController < ApplicationController
       return false if context_name.blank?
       true
     end
-          
+      
   end
 end

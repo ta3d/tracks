@@ -1,0 +1,9 @@
+setup :fixtures => :all
+login :as => 'admin'
+open "/wizardrules"
+click "edit_icon_yearly_wizardrule_3"
+wait_for_visible "edit_yearly_wizardrule_3"
+type "project_name_yearly_wizardrule_3", "Evict dinosaurs from the garden"
+click "xpath=//*[@id='yearly-wizard-update-rule-submit']"
+wait_for_not_visible "edit_yearly_wizardrule_3"
+assert_text_present "ayearlyrule [agenda][Evict dinosaurs from the garden]"

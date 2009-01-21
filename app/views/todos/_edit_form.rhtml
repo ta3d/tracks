@@ -54,6 +54,13 @@ Event.observe($('<%= dom_id(@todo, 'context_name') %>'), "click", <%= dom_id(@to
 </a>
 </div>
 
+<div class="remindtime_input">
+<label for="<%= dom_id(@todo, 'remindtime') %>">Remindtime</label>
+<%#= text_field("todo", "remindtime", "size" => 10, "class" => "DateTime", "onFocus" => "Calendar.setup", "tabindex" => 5) %>
+
+<%= datetime_field_tag("todo[remindtime]", dom_id(@todo, 'remindtime'), format_datetime(@todo.remindtime), "tabindex" => 16) %>
+</div>
+
 <div class="show_from_input">
 <label for="<%= dom_id(@todo, 'show_from') %>">Show from</label>
 <%= date_field_tag("todo[show_from]", dom_id(@todo, 'show_from'), format_date(@todo.show_from), "tabindex" => 14) %>
@@ -81,3 +88,5 @@ Event.observe($('<%= dom_id(@todo, 'context_name') %>'), "click", <%= dom_id(@to
         
 <%= calendar_setup( dom_id(@todo, 'due') ) %>
 <%= calendar_setup( dom_id(@todo, 'show_from') ) %>
+<%= remindcalendar_setup( dom_id(@todo, 'remindtime' ) ) %>
+

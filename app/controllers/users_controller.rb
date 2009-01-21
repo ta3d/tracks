@@ -207,5 +207,4 @@ class UsersController < ApplicationController
     return true
   end
   
-  
-end
+  end

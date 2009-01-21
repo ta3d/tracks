@@ -132,5 +132,4 @@ class TodoCreateParamsHelperTest < Test::Rails::TestCase
     params_helper = TodosController::TodoCreateParamsHelper.new(params, prefs)
     assert_equal false, params_helper.context_specified_by_name?
   end
-  
-end
+  end

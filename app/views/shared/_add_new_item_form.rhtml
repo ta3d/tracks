@@ -105,6 +105,11 @@ $('todo_context_name').projectDefaultContextsMap = eval('(' + <%= @default_proje
 <%= text_field("todo", "due", "size" => 12, "class" => "Date", "onfocus" => "Calendar.setup", "tabindex" => 6, "autocomplete" => "off") %>
 </div>
 
+<div class="remindtime_input">
+<label for="todo_remindtime">Remindtime</label><br />
+<%= text_field("todo", "remindtime", "size" => 10, "class" => "DateTime", "onFocus" => "Calendar.setup", "tabindex" => 5) %>
+</div>
+
 <div class="show_from_input">
 <label for="todo_show_from">Show from</label>
   <%= text_field("todo", "show_from", "size" => 12, "class" => "Date", "onfocus" => "Calendar.setup", "tabindex" => 7, "autocomplete" => "off") %>
@@ -125,5 +130,6 @@ $('todo_context_name').projectDefaultContextsMap = eval('(' + <%= @default_proje
                   
 <%= calendar_setup( "todo_due"  ) %>
 <%= calendar_setup( "todo_show_from"  ) %>
+<%= remindcalendar_setup( "todo_remindtime"  ) %>
 </div>
 </div>

@@ -104,7 +104,7 @@ class User < ActiveRecord::Base
            end
   has_many :notes, :order => "created_at DESC", :dependent => :delete_all
   has_one :preference, :dependent => :destroy
-  
+  has_many :wizardrules, :dependent => :delete_all
   attr_protected :is_admin
 
   validates_presence_of :login
@@ -236,5 +236,4 @@ protected
   def normalize_open_id_url
     return if open_id_url.nil?
     self.open_id_url = OpenIdAuthentication.normalize_url(open_id_url)
-  end
-end
+  endend

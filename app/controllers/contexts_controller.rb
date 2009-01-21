@@ -4,7 +4,7 @@ class ContextsController < ApplicationController
 
   before_filter :init, :except => [:index, :create, :destroy, :order]
   before_filter :init_todos, :only => :show
-  before_filter :set_context_from_params, :only => [:update, :destroy]
+  before_filter :set_context_from_params, :only => [:update, :destroy, :invite]
   skip_before_filter :login_required, :only => [:index]
   prepend_before_filter :login_or_feed_token_required, :only => [:index]
   session :off, :only => :index, :if => Proc.new { |req| ['rss','atom','txt'].include?(req.parameters[:format]) }
@@ -82,16 +82,17 @@ class ContextsController < ApplicationController
       params['context']['id'] = params['id'] 
       params['context']['name'] = params['value'] 
     end
+    @old_sharemodus = @context.sharemodus 
     @context.attributes = params["context"]
+    if !params["tag_list"].blank?
+      @context.tag_with(params["tag_list"], current_user)
+      @context.tags.reload
+    end
     if @context.save
-      if boolean_param('wants_render')
+      if params['wants_render']
         respond_to do |format|
           format.js
         end
-      elsif boolean_param('update_context_name')
-        @contexts = current_user.projects
-        render :template => 'contexts/update_context_name.js.rjs'
-        return
       else
         render :text => success_text || 'Success'
       end
@@ -138,7 +139,7 @@ class ContextsController < ApplicationController
       @active_contexts = @contexts.active
       @hidden_contexts = @contexts.hidden
       @down_count = @active_contexts.size + @hidden_contexts.size 
-      cookies[:mobile_url]= {:value => request.request_uri, :secure => TRACKS_COOKIES_SECURE}
+      cookies[:mobile_url]=request.request_uri
       render :action => 'index_mobile'
     end
   end
@@ -148,8 +149,7 @@ class ContextsController < ApplicationController
       @page_title = "TRACKS::List actions in "+@context.name
       @not_done = @not_done_todos.select {|t| t.context_id == @context.id } 
       @down_count = @not_done.size 
-      cookies[:mobile_url]= {:value => request.request_uri, :secure => TRACKS_COOKIES_SECURE}
-      @mobile_from_context = @context.id
+      cookies[:mobile_url]=request.request_uri
       render :action => 'mobile_show_context'
     end
   end
@@ -209,5 +209,31 @@ class ContextsController < ApplicationController
       @default_project_context_name_map = build_default_project_context_name_map(@projects).to_json
     end
   end
+
+  def list
+    @contexts=Context.find(:all, :conditions => [
+      "sharemodus = :sharemodus AND NOT user_id = :userid",
+      { :sharemodus => Context::SHAREMODUS_PUBLIC, :userid => current_user.id }])
+    @invites = Invite.find_all_by_user_id(current_user.id);
+
+  end
+
+  # invite users to use your pivate share context
+  # 
+  def invite 
+    params['invite'] ||= {}
+    user=User.find_by_login(params['invite']['username'])
+    if user!=nil && user.id != current_user.id
+      i=Invite.new
+      i.user_id=user.id
+      i.context_id=@context.id
+      @saved=i.save
+    end
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
 
 end

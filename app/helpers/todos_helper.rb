@@ -264,6 +264,30 @@ module TodosHelper
   def date_field_tag(name, id, value = nil, options = {})
     text_field_tag name, value, {"size" => 12, "id" => id, "class" => "Date", "onfocus" => "Calendar.setup", "autocomplete" => "off"}.update(options.stringify_keys)
   end
+
+    def remindcalendar_setup( input_field )
+    #date_format = @user.preferences["date_format"]
+    date_format = "%d/%m/%Y %H:%M"
+    str = "Calendar.setup({ ifFormat:\"#{date_format}\""
+    str << ",firstDay:#{prefs.week_starts},showOthers:true,showsTime:true,range:[2004, 2010]"
+    str << ",step:1,inputField:\"" + input_field + "\",cache:false,align:\"TR\" })"
+    javascript_tag str
+  end
+
+  def datetime_field_tag(name, id, value = nil, options = {})
+    text_field_tag name, value, {"size" => 12, "id" => id, "class" => "DateTime", "onfocus" => "Calendar.setup", "autocomplete" => "off"}.update(options.stringify_keys)
+  end
+  # Convert a date object to the format specified
+  # in config/settings.yml
+  #
+  def format_datetime(date)
+    if date
+      date_format = "%d/%m/%Y %H:%M"
+      formatted_date = date.strftime("#{date_format}")
+    else
+      formatted_date = ''
+    end
+  end 
     
   private
   
@@ -282,6 +306,14 @@ module TodosHelper
   
   def defer_link(days)
     link_to_remote image_tag("defer_#{days}.png", :alt => "Defer #{pluralize(days, 'day')}"), :url => {:controller => 'todos', :action => 'defer', :id => @todo.id, :days => days, :_source_view => (@source_view.underscore.gsub(/\s+/,'_') rescue "")}
+  end
+
+  def image_tag_for_share_context
+    image_tag("blank.png", :title =>"Share context to the world", :class=>"share_context")
+  end
+  
+  def image_tag_for_unshare_context
+    image_tag("blank.png", :title =>"Disable shareing of the context", :class=>"unshare_context")
   end
 
 end

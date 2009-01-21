@@ -1,0 +1,28 @@
+<div id="error_status"><%= error_messages_for("wizardrule", :object_name => 'action') %></div>
+
+<%= hidden_field( "wizardrule", "id" ) %>
+
+<label for="yearlywizard_cw_relativeday">Add action for</label>
+<%=select_tag( "cw_exactday", options_for_select(1..31,@wizardrule.cw_exactday)) %>
+<%= observe_field "cw_exactday",:url => "yearly_wizardrules/calculate_months",:frequency => 2,:update => "exactmonth",
+	:with => "'daynumber='+ escape($('cw_exactday').value)" ,
+	:loading    =>  "$('cw_exactmonth').startWaiting()",
+    :complete   =>  "$('cw_exactmonth').stopWaiting()" %>
+<%=select_tag( "cw_exactmonth", options_for_select(WizardrulesController::MONTHS,@wizardrule.cw_exactmonth)) %>
+
+<%= render :partial => "wizardrules/edit_form" %>
+
+
+<div class="submit_box">
+  <div class="widgets">
+    <button type="submit" class="positive" id="yearly-wizard-update-rule-submit" tabindex="15">
+        <%=image_tag("accept.png", :alt => "") %>
+        Update
+    </button>
+    <a href="javascript:void(0);" onclick="Element.toggle('<%= dom_id(@wizardrule, 'line') %>');Element.toggle('<%= dom_id(@wizardrule, 'edit') %>');" class="negative">
+        <%=image_tag("cancel.png", :alt => "") %>
+        Cancel
+    </a>
+  </div>
+</div>
+

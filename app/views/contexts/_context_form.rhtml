@@ -10,7 +10,19 @@
     <label for="context_hide">Hide from front page?</label>    
     <%= check_box('context', 'hide', :class => 'context-hide') %>
     <input type="hidden" name="wants_render" value="true" /> 
-  
+  	
+	 <% if context.context_id == nil %>
+        <label for="context_share">Share this Context?</label>
+		<%=select_tag( "context[sharemodus]", options_for_select(Context::SHAREMODI,@context.sharemodus.to_i)) %>
+		<% if context.sharemodus == Context::SHAREMODUS_PUBLIC %>
+			<label class="tag_list_label" for="<%= dom_id(@context, 'tag_list') %>">Tags (separate with commas)</label>
+			<%= text_field_tag 'tag_list', context_tag_list_text, :id => dom_id(@context, 'tag_list') %> 
+		<% end %>
+      <% else %>
+        <label for="context_share">As this Context is provided by another user resharing is disabled! </label>
+      <% end %>
+
+	
     <div class="submit_box">
       <div class="widgets">
         <button type="submit" class="positive" id="<%= dom_id(context, 'submit') %>" tabindex="15">

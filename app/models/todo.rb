@@ -1,10 +1,14 @@
 class Todo < ActiveRecord::Base
-
+	include SyncData
   belongs_to :context
   belongs_to :project
   belongs_to :user
   belongs_to :recurring_todo
-
+  belongs_to :wizardrule
+  belongs_to :todo#:origin_todo, :class_name => "Todo"
+  has_one :sync_todo
+  has_many :todos, :dependent => :destroy
+  
   named_scope :active, :conditions => { :state => 'active' }
   named_scope :not_completed, :conditions =>  ['NOT state = ? ', 'completed']
   named_scope :are_due, :conditions => ['NOT todos.due IS NULL']
@@ -50,10 +54,14 @@ class Todo < ActiveRecord::Base
   validates_length_of :notes, :maximum => 60000, :allow_nil => true 
   validates_presence_of :show_from, :if => :deferred?
   validates_presence_of :context
+  validates_presence_of :remindtime
   
   def validate
     if !show_from.blank? && show_from < user.date
       errors.add("show_from", "must be a date in the future")
+    end
+    if !remindtime.blank? && remindtime.to_date > due
+      errors.add("remindtime", "must be a Date <= Due")
     end
   end
 
@@ -183,4 +191,21 @@ class Todo < ActiveRecord::Base
     todo.project_id = project_id unless project_id.nil?
     return todo
   end
-end
+  
+  def after_save 
+    synctodo = SyncTodo.find_by_todo_id self.id
+    synctodo = SyncTodo.new if synctodo==nil
+    build_syncdata synctodo , self 
+  end
+  
+  def before_destroy 
+    synctodo = SyncTodo.find_by_todo_id self.id
+    if synctodo!=nil
+      synctodo.deleted=true
+      synctodo.save
+    end 
+  end
+
+  def remindtime
+    self[:remindtime].in_time_zone
+  endend

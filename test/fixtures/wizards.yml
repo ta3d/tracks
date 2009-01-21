@@ -1,0 +1,32 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+<% 
+
+def today 
+  Time.now.utc.to_s(:db) 
+end
+
+%>
+
+weekly:
+    id: 1
+    name: weekly
+    description: water the plants, rubbish, ... 
+    identifier: WEEKLY
+    created_at: <%= today %>
+    updated_at: <%= today %>
+
+monthly:
+    id: 2
+    name: monthly
+    description: pay the bills, check money, ...
+    identifier: MONTHLY
+    created_at: <%= today %>
+    updated_at: <%= today %>
+    
+yearly:
+    id: 3
+    name: yearly
+    description: birthdays, wedding days, ...
+    identifier: YEARLY
+    created_at: <%= today %>
+    updated_at: <%= today %>
