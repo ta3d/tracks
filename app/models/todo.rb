@@ -208,4 +208,5 @@ class Todo < ActiveRecord::Base
 
   def remindtime
     self[:remindtime].in_time_zone
-  endend
+  end
+ end

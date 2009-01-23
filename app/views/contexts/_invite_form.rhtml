@@ -9,7 +9,7 @@
     :complete => "$('invite-submit').stopWaiting()",
     :condition => "!$('invite-submit').isWaiting()") do -%>
 	
-<div id="error_status"><%= error_messages_for("user", :object_name => 'action') %></div>
+<div id="error_status"><%= error_messages_for("invite", :object_name => 'invite') %></div>
 	<%= hidden_field_tag("context_id", "#{@context.id}" ) %>
 	
     <label for="user_name">User to invite to use your Context "<%=@context.name%>":</label><br/>

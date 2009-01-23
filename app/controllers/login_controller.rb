@@ -128,4 +128,3 @@ class LoginController < ApplicationController
   end
 end
 
-end

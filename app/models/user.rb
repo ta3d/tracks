@@ -236,4 +236,5 @@ protected
   def normalize_open_id_url
     return if open_id_url.nil?
     self.open_id_url = OpenIdAuthentication.normalize_url(open_id_url)
-  endend
+  end
+ end

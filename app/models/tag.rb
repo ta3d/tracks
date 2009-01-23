@@ -17,7 +17,7 @@ class Tag < ActiveRecord::Base
   
   # Set up the polymorphic relationship.
   has_many_polymorphs :taggables, 
-    :from => [:todos, :recurring_todos], 
+    :from => [:todos, :recurring_todos, :contexts], 
     :through => :taggings, 
     :dependent => :destroy,
     :skip_duplicates => false, 
